@@ -18,15 +18,19 @@ Pivot.
 
 1: First, launch the Power Query Editor to get started.
 
-2: Use Power Query to import 'sales_team_directory.xlsx' from the Datasets folder.
+2: Use Power Query to import 'sales_team_directory.xlsx' from the Datasets
+folder.
 
 3: Use Power Query to import loan_data.xlsx from the Datasets.
 
-4: California's state code should be CA, but it's been overwritten by the number 8. Let's fix this.
+4: California's state code should be CA, but it's been overwritten by the
+number 8. Let's fix this.
 
 Under the state_code column, replace the 8 values with CA.
 
-5: Great! Let's review our data to understand what it looks like. Enabling the data preview features in Power Query is a great way to gain deeper insight. Enable these features under the View ribbon:
+5: Great! Let's review our data to understand what it looks like. Enabling the
+data preview features in Power Query is a great way to gain deeper insight.
+Enable these features under the View ribbon:
 
 - Column quality
 - Column distribution
@@ -34,21 +38,18 @@ Under the state_code column, replace the 8 values with CA.
 
 # Manage data in Power Pivot
 
-We've prepared our data with Power Query, now we need to add this to our data model so we can use it in Power Pivot. We can also add data from our workbooks directly to Power Pivot as an easy solution!
+We've prepared our data with Power Query, now we need to add this to our data
+model so we can use it in Power Pivot. We can also add data from our workbooks
+directly to Power Pivot as an easy solution!
 
 - If you are still in the Power Query Editor:
 
-Click on the Close & Load dropdown menu > Close and load to…
-Select Only Create Connection.
-Check Add this data to the Data Model.
-Click OK.
+Click on the Close & Load dropdown menu > Close and load to… Select Only Create
+Connection. Check Add this data to the Data Model. Click OK.
 
 - If the data has already been loaded into the workbook:
 
-Navigate to the Data ribbon and click Queries & Connections.
-Right click on a query > Load To…
-Select Only Create Connection.
-Check Add this data to the Data Model.
-Click OK.
-Click OK on the warning.
-Do this for both sales_team and loan_data.
+Navigate to the Data ribbon and click Queries & Connections. Right click on a
+query > Load To… Select Only Create Connection. Check Add this data to the Data
+Model. Click OK. Click OK on the warning. Do this for both sales_team and
+loan_data.
