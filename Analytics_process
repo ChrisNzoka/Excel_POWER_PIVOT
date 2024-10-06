@@ -1,0 +1,5 @@
+# Turn it on
+
+Power Pivot requires an add-in in Excel. This is already available in our
+standard Excel application, so we just need to enable it through "File >>
+Options >> Add Ins >> Manage >> COM Add Ins >> Click 'GO'."
