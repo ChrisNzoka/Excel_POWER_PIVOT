@@ -3,12 +3,11 @@
 Power Pivot requires an add-in in Excel. This is already available in our
 standard Excel application, so we just need to enable it.
 
-### 1
-
 Enable the Microsoft Power Pivot for Excel add-in from the Excel Options menu:
-Click on File > Options > Add-ins. Next to the Manage drop-down menu, select COM
-add-ins, then click Go… Check the box for Microsoft Power Pivot for Excel, then
-click OK.
+
+- Click on File > Options > Add-ins.
+- Next to the Manage drop-down menu, select COM add-ins, then click Go…
+- Check the box for Microsoft Power Pivot for Excel, then click OK.
 
 # Preparing data with Power Query
 
@@ -16,21 +15,21 @@ The best way to get data is to use Power Query. This is because Power Query has
 the ability to shape and clean up data before we begin analyzing it in Power
 Pivot.
 
-1: First, launch the Power Query Editor to get started.
+1. First, launch the Power Query Editor to get started.
 
-2: Use Power Query to import 'sales_team_directory.xlsx' from the Datasets
-folder.
+2. Use Power Query to import 'sales_team_directory.xlsx' from the Datasets
+   folder.
 
-3: Use Power Query to import loan_data.xlsx from the Datasets.
+3. Use Power Query to import loan_data.xlsx from the Datasets.
 
-4: California's state code should be CA, but it's been overwritten by the
-number 8. Let's fix this.
+4. California's state code should be CA, but it's been overwritten by the
+   number 8. Let's fix this.
 
-Under the state_code column, replace the 8 values with CA.
+- Under the state_code column, replace the 8 values with CA.
 
-5: Great! Let's review our data to understand what it looks like. Enabling the
-data preview features in Power Query is a great way to gain deeper insight.
-Enable these features under the View ribbon:
+5. Great! Let's review our data to understand what it looks like. Enabling the
+   data preview features in Power Query is a great way to gain deeper insight.
+   Enable these features under the View ribbon:
 
 - Column quality
 - Column distribution
@@ -42,14 +41,142 @@ We've prepared our data with Power Query, now we need to add this to our data
 model so we can use it in Power Pivot. We can also add data from our workbooks
 directly to Power Pivot as an easy solution!
 
-- If you are still in the Power Query Editor:
+If you are still in the Power Query Editor:
 
-Click on the Close & Load dropdown menu > Close and load to… Select Only Create
-Connection. Check Add this data to the Data Model. Click OK.
+- Click on the Close & Load dropdown menu > Close and load to…
+- Select Only Create Connection.
+- Check Add this data to the Data Model.
+- Click OK.
 
-- If the data has already been loaded into the workbook:
+If the data has already been loaded into the workbook:
 
-Navigate to the Data ribbon and click Queries & Connections. Right click on a
-query > Load To… Select Only Create Connection. Check Add this data to the Data
-Model. Click OK. Click OK on the warning. Do this for both sales_team and
-loan_data.
+- Navigate to the Data ribbon and click Queries & Connections.
+- Right click on a query > Load To…
+- Select Only Create Connection.
+- Check Add this data to the Data Model.
+- Click OK.
+- Click OK on the warning.
+- Do this for both sales_team and loan_data.
+
+1. Great, now our data should already be loaded into the data model. Let's check
+   it out.
+
+- Open the data model in the Power Pivot manager
+
+2. But what if we have data that we want to manually enter, or is in our current
+   workbook? We can add that too, very easily!
+
+- Add table in the sales_goals worksheet to the data model.
+  - Navigate to the sales_goals worksheet in current Excel file.
+  - Click on the table.
+  - Navigate to the Power Pivot ribbon.
+  - Click Add to Data Model.
+
+3. Very nice! Let's format these numbers to make this a bit nicer to look at.
+
+- Format Month as a short date (i.e. 3/14/2001).
+- Format Goal as a currency with 0 decimal places.
+
+# Connection builds a relationship
+
+The power of Power Pivot is its ability to create relationships between
+different datasets. This allows you to analyze all your data together, gaining
+deeper and more valuable insights.
+
+As an analyst at Pivotal Mortgage, you've been tasked with gaining deeper
+insights into sales performance by team. Therefore, you should create a
+relationship between sales_team and loan_data.
+
+- sales_team is a dimension table that gives context about each employee. There
+  is only one of each employee.
+- In the loan_data table, employees can write many loans, so their employee ID's
+  can be found many times.
+
+1. First, open the Power Pivot manager.
+
+2. Next, go to the Diagram view of the data model.
+
+3. Create a relationship between sales_team and loan_date on employee_id and
+   banker_employee_id, respectively.
+
+4. Review the relationship you created by opening Manage Relationships under the
+   Design.
+
+# Hierarchies
+
+Hierarchies are structured groups of data, much like a Russian doll. Creating
+hierarchies can add another dimension to your analysis, making it easier to
+group data and find insights and relationships.
+
+There are some interesting hierarchical relationships in the sales_team since it
+is an organization chart dataset. This could be helpful to explore.
+
+1. Let's begin by structuring some location data for our loan information.
+
+- Create a hierarchy of state_code and county in the loan_data table.
+- Rename the hierarchy to "location".
+
+2. We can also structure some of the sales team data, which will help managers
+   analyze the performances.
+
+- In the diagram view, create a hierarchy in sales_team that follows this order:
+  1. department
+  2. office
+  3. manager_name
+  4. full_name
+- Rename the hierarchy to "org_chart".
+
+3. Awesome! Let's see how this works in a PivotTable.
+
+- Create a PivotTable in a new worksheet from Power Pivot.
+- Rename the new worksheet "sales_team".
+
+4. Structure your PivotTable to have this information from the sales_team table:
+
+- org_chart in the rows.
+- Count of employee_id in the values.
+
+# Mark your calendars
+
+A great way to organize different time series data is to have a date dimension
+table. Power Pivot has a feature that allows us to easily create and customize a
+calendar table for our data model.
+
+Having a date table also makes it easier to connect different fact tables. For
+example, loans_data and sales_goals_2021 are fact tables with dates. loan_data
+has closing_date, but sales_goals_2021 has month. If we were to join these
+tables together directly, we would only get the Goal on the loan_id that has a
+closing_date that matches the first of the month; however, we want the sales
+goal to match to the month of the closing_date. Therefore, a date table can act
+as a link to join these two tables together seamlessly.
+
+1. First, create a new date table in Power Pivot. Hint
+
+- Open the Power Pivot manager.
+- Navigate to the Design ribbon.
+- Click Date Table > New.
+
+2. Awesome, let's review this new table in the Data View.
+
+3. We know our loan sales are only for 2021, but this table has many more dates
+   we don't need.
+
+- Update the range of the table to start on 1/1/2021 and end on 12/31/2021
+  (January 1, 2021 to December 31, 2021).
+
+4. Very nice! Now, we can see that we only have dates for the year 2021. The
+   real power of this table comes to life when we create relationships with it.
+
+- Go to the Diagram View.
+- Create a relationship between sales_goals_2021 Month and Calendar Month.
+- Create a relationship between loan_data closing_date and Calendar Date.
+
+5. Fantastic! Let's explore these new relationships in a PivotTable.
+
+- Create a PivotTable in a new worksheet from Power Pivot.
+- Rename the new worksheet sales_to_goal.
+- Add Date Hierarchy from the Calendar table to the rows.
+- Add the sum of loan_amount from loan_data to the values.
+- Add the sum of Goal from sales_goals_2021 to the values.
+
+6. 
