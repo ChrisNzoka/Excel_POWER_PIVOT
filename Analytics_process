@@ -179,4 +179,13 @@ as a link to join these two tables together seamlessly.
 - Add the sum of loan_amount from loan_data to the values.
 - Add the sum of Goal from sales_goals_2021 to the values.
 
-6.
+# It's math, not magic (DAX)
+Let's start with some basic arithmetic. Arithmetic is addition, subtraction, multiplication, and division, and these can be done in DAX without any special functions, just like in Excel.
+
+Lending to borrowers can be risky for banks because sometimes borrowers can't pay back their loans. To mitigate these risks, banks perform calculations to help make lending decisions.
+
+One calculation is finding the borrower's equity on a property. This is how much property value is left after subtracting the loan amount. On a home purchase, this is often the down payment amount.
+
+1. Close any open workbooks and open '3_0_chapter_start.xlsx'.
+
+2. Open the Power Pivot window, and navigate to the loan_data table in the data view.
