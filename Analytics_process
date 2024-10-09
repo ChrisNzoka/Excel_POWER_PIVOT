@@ -180,59 +180,211 @@ as a link to join these two tables together seamlessly.
 - Add the sum of Goal from sales_goals_2021 to the values.
 
 # It's math, not magic (DAX)
-Let's start with some basic arithmetic. Arithmetic is addition, subtraction, multiplication, and division, and these can be done in DAX without any special functions, just like in Excel.
 
-Lending to borrowers can be risky for banks because sometimes borrowers can't pay back their loans. To mitigate these risks, banks perform calculations to help make lending decisions.
+Let's start with some basic arithmetic. Arithmetic is addition, subtraction,
+multiplication, and division, and these can be done in DAX without any special
+functions, just like in Excel.
 
-One calculation is finding the borrower's equity on a property. This is how much property value is left after subtracting the loan amount. On a home purchase, this is often the down payment amount.
+Lending to borrowers can be risky for banks because sometimes borrowers can't
+pay back their loans. To mitigate these risks, banks perform calculations to
+help make lending decisions.
+
+One calculation is finding the borrower's equity on a property. This is how much
+property value is left after subtracting the loan amount. On a home purchase,
+this is often the down payment amount.
 
 1. Close any open workbooks and open '3_0_chapter_start.xlsx'.
 
-2. Open the Power Pivot window, and navigate to the loan_data table in the data view.
+2. Open the Power Pivot window, and navigate to the loan_data table in the data
+   view.
 
-3. Equity is the amount of ownership the borrower has in the property. This is calculated by finding the value of the property and subtracting the loan amount.
+3. Equity is the amount of ownership the borrower has in the property. This is
+   calculated by finding the value of the property and subtracting the loan
+   amount.
+
 - Insert a new column next to property_value.
 - Name this new column "equity_amount".
-- Calculate the equity by finding the difference of property_value and loan_amount.
+- Calculate the equity by finding the difference of property_value and
+  loan_amount.
 - Format this as a $ with 0 decimals.
 
 4. Nice work! Next, let's work on making this a percentage of property_value.
+
 - Insert a new column next to equity_amount.
 - Name this new column "equity_percentage".
 - Calculate this column as equity_amount divided by the property_value
 - Format this as a % with 2 decimals.
 
 # We're related
-RELATED() is a powerful relationship function in DAX that allows Power Pivot to reference columns in other tables. This is very similar to a VLOOKUP() in Excel: you have one column from one data table or range, and you retrieve a value from another column based on a matching key. In Power Pivot, since we've already established relationships between tables in our data model on a matching key, we can use RELATED() to reference columns in other related tables.
 
-Let's bring in some fields so we can explore more aspects of our loan_data table. We could bring in the banker and closing month to find the number of closings by banker, which could be interesting to know.
+RELATED() is a powerful relationship function in DAX that allows Power Pivot to
+reference columns in other tables. This is very similar to a VLOOKUP() in Excel:
+you have one column from one data table or range, and you retrieve a value from
+another column based on a matching key. In Power Pivot, since we've already
+established relationships between tables in our data model on a matching key, we
+can use RELATED() to reference columns in other related tables.
 
-1. First, let's bring in the full name of the banker, which is the sales team member who closed the loan.
+Let's bring in some fields so we can explore more aspects of our loan_data
+table. We could bring in the banker and closing month to find the number of
+closings by banker, which could be interesting to know.
+
+1. First, let's bring in the full name of the banker, which is the sales team
+   member who closed the loan.
+
 - While in the loan_data table, add a new column called "banker_name".
 - Use RELATED() to reference full_name from the sales_team table.
 
 2. Nice work! Let's add another column from the Calendar table.
+
 - While in the loan_data table, add a new column called "closing_month".
 - Use RELATED() to reference 'Calendar'[MMM-YYYY].
 
 # Aggregate measures
-Measures are what make DAX and Power Pivot very powerful analytical tools. Measures are calculations that evaluate expressions in the data model.
 
-Aggregation functions, like COUNT(), SUM() and AVERAGE() summarize multiple individual data points into a single value. These are very similar to the functions in Excel.
+Measures are what make DAX and Power Pivot very powerful analytical tools.
+Measures are calculations that evaluate expressions in the data model.
 
-1. First, let's count the number of loans that are showing up in our loan_data table.
+Aggregation functions, like COUNT(), SUM() and AVERAGE() summarize multiple
+individual data points into a single value. These are very similar to the
+functions in Excel.
+
+1. First, let's count the number of loans that are showing up in our loan_data
+   table.
+
 - Create a new measure called "loan_count".
 - Use COUNT() to count the number of loan_id's.
 - Format this as a whole number with , separators.
 
-2. Loan volume is the another way to say "total loan amount". Let's create a measure that adds up all the loan amounts.
-- Create a measure called "loan_volume" that uses SUM() to find the total loan_amount.
+2. Loan volume is the another way to say "total loan amount". Let's create a
+   measure that adds up all the loan amounts.
+
+- Create a measure called "loan_volume" that uses SUM() to find the total
+  loan_amount.
 - Format this as a currency with 0 decimal places and a $.
 
-3. Knowing the average interest rate is also a common statistic when talking about loans in aggregate.
-- Create a measure called "average_rate" that uses AVERAGE() to find the average interest_rate.
+3. Knowing the average interest rate is also a common statistic when talking
+   about loans in aggregate.
+
+- Create a measure called "average_rate" that uses AVERAGE() to find the average
+  interest_rate.
 - Format this as a percentage with 2 decimal places.
 
 # Visualizing data with PivotTables
-PivotTables are a great way to display aggregated data in an easy to read format. They're simple to read and understand. Let's visualize some of the measures we created in our PivotTable on the sales_team worksheet to get a breakout of sales performance.
 
+PivotTables are a great way to display aggregated data in an easy to read
+format. They're simple to read and understand. Let's visualize some of the
+measures we created in our PivotTable on the sales_team worksheet to get a
+breakout of sales performance.
+
+1. We won't be working in the Power Pivot window anymore. Navigate to the
+   PivotTable on the sales_team worksheet.
+
+2. Now, let's add some of our measures from the loan_data table.
+
+- Add loan_count, loan_volume and avg_rate to the Values part of this
+  PivotTable.
+
+3. Minimize the row labels on the PivotTable so that only New York City and San
+   Francisco are showing.
+
+4. This is interesting, but because the San Francisco office has more employees,
+   it's not clear which office is closing bigger loans, on average. Let's create
+   a new measure to figure this out.
+
+- Create a new measure on the loan_data table that calculates the average
+  loan_amount.
+- Name this measure average_loan_amount.
+- Format this as a currency with 0 decimal places.
+
+# Key performance indicators
+
+Tadeas Benne, the Chief Revenue Officer, emailed us this request:
+
+Hey data team, please analyze the performance of my sales team. The sales goal
+for this year was `42,600,000` per banker. Between `42,599,999` and
+`35,000,000`, bankers didn't hit their goals, but don't need to be put on a
+performance plan. Anyone below `35,000,000` needs to be put on a PIP.
+
+Thanks,
+
+Tadeas Benne, CRO | Pivotal Mortgage
+
+1. In Power Pivot, we can add Key Performance Indicators (KPIs) to our
+   PivotTables, which makes it easy to visualize performance compared to set
+   targets.
+
+First, Tadeas Benne wants us to analyze each individual banker, so we need to
+open up the PivotTable so all the bankers can be seen.
+
+2. Based on Tadeas Benne's email, we need to create a KPI based on loan_volume
+   with these thresholds:
+
+- The sales goal for this year was 42,600,000 per banker, so anyone above this
+  is in the green zone.
+- Between 42,599,999 and 35,000,000, bankers didn't hit their goals, but don't
+  need to be put on a performance plan. This is the yellow zone.
+- Anyone below 35,000,000 is in the red zone needs to be put on a PIP.
+- Since Tadeas asked for these green/yellow/red zones, make sure to choose an
+  icon style that uses these colors.
+
+# Visualizing data with PivotCharts
+
+Usually, when people think of a dashboard, they think of something that is
+visually interesting and can tell a story. PivotCharts are a great tool to
+accomplish this in Excel.
+
+Let's create a dashboard for Tadeas so he can understand more about the sales
+performance. We can create some cohesive visualizations to tell the story of the
+company overtime and performance between the two sales offices.
+
+1. Power Pivot can add PivotChart templates connected to our data model
+   automatically.
+
+- Navigate back into the Power Pivot window and use the PivotTable feature to
+  add Two PivotCharts (Horizontal) to a new worksheet.
+- Call this new worksheet "Dashboard". Hint
+- Under the Power Pivot ribbon click Manage.
+- In the Power Pivot window, click on the dropdown menu under PivotTable > \_Two
+  PivotCharts (Horizontal) > New Worksheet.
+- Double click on the tab to rename it to "Dashboard".
+
+2. ...
+
+- On the first PivotChart (left), visualize the loan_volume by Date Hierarchy on
+  a column chart.
+- Expand the visual to view the loan_volume by month.
+- Change the title to "Loan Volume over Time".
+
+3. ...
+
+- On the second PivotChart (right), visualize the loan_volume by org_chart on a
+  doughnut chart.
+- Change the title to "Sales Team Volume".
+
+4. Let's make some final touches to our PivotCharts to make them easier to
+   analyze with some added chart elements:
+
+- Add a linear trendline to the Loan Volume over Time PivotChart.
+- Add data labels on the outside end of the Sales Team Volume PivotChart.
+
+# Slice and dice
+
+One key staple of a dashboard is the ability to drill into and filter data.
+Slicers are interactive visual filters that allow users to easily refine and
+navigate through data in PivotTables, PivotCharts, and regular data tables. They
+provide a user-friendly interface for slicing and dicing data by selecting
+specific criteria, enhancing data exploration and analysis.
+
+In our final step before presenting our dashboard to Tadeas Benne, the Chief
+Revenue Officer, we should add some slicers so he can easily dig through the
+data and perhaps answer some of his own questions through data exploration.
+
+1. First, let's add a timeline slicer on the Loan Volume over Time PivotChart.
+   Make sure this slicer references the Date field from the Calendar table.
+
+2. Notice how this didn't change anything on our pie chart. That's because it's
+   not connected with our other PivotChart.
+
+- Connect this slicer to the Sales Team Volume PivotChart. Hint
+- Under the Timeline ribbon, click Report Connections.
+- Check the box for Sales Team Volume and click OK.
